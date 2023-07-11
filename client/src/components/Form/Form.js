@@ -2,21 +2,29 @@ import React, { useState } from 'react';
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
 import useStyles from './styles.js';
 import FileBase from 'react-file-base64';
+import { useDispatch } from 'react-redux';
+import { createPost } from '../../actions/posts.js';
 
 const Form = () => {
     const classes = useStyles();
     const [postData, setPostData] = useState({
         creator: '', title: '', message: '', tags: '', selectedFile: ''
     });
-    const handleSubmit = () => {
-
+    const dispatch = useDispatch();
+    const handleSubmit = (e) => {
+        try {
+            e.preventDefault();    //avoids browser refresh
+            dispatch(createPost(postData)); //sends post request with all user data
+        } catch (error) {
+            console.log(error.message);
+        }
     }
     const clear = () => {
 
     }
   return (
     <Paper className={classes.paper}>
-        <form autoComplete="off" noValidate className={classes.form} onSubmit={handleSubmit}>
+        <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
             <Typography variant="h6">Creating a Memory</Typography>
             <TextField name="creator" variant="outlined" label="Creator" fullWidth
                 //all data from post is stored in postData object 
@@ -35,8 +43,8 @@ const Form = () => {
                 onDone={({base64}) => setPostData({ ...postData, selectedFile: base64 })}
                 />
             </div>
-            <Button className={classes.buttonSubmit} variant="contained" color="primary" size="large" type="submit" fullWidth>Submit</Button>
-            <Button variant="contained" color="secondary" size="small" onClick={clear} fullWidth>Clear</Button>
+            <Button className={classes.buttonSubmit} variant="contained" style={{backgroundColor: '#4FB477', color: 'white'}} size="large" type="submit" fullWidth>Submit</Button>
+            <Button variant="contained" style={{backgroundColor: '#E4DFDA', color: '#69A197'}}  size="small" onClick={clear} fullWidth>Clear</Button>
         </form>
     </Paper>
   );
