@@ -20,7 +20,7 @@ function App() {
   return (
     <Container maxwidth="lg">
       <AppBar className={classes.appBar} position="static" color="inherit">
-        <Typography variant="h2" align="center">Memories</Typography>
+        <Typography variant="h2" align="center">SnapFolio</Typography>
         <img src={memories} alt="memories" height="60" />
       </AppBar>
       <Grow in>

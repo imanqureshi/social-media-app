@@ -3,6 +3,9 @@ import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import postRoutes from "./routes/posts.js";
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 
 const app = express();
 
@@ -16,9 +19,9 @@ app.use(cors());
 app.use('/posts', postRoutes);
 
 //hosts database cluster on mongoDB cloud
-const CONNECTION_URL = 'mongodb+srv://username:password@atlascluster.qu0j13i.mongodb.net/?retryWrites=true&w=majority';
+const uri = process.env.MONGODB_URL;
 const PORT = process.env.PORT || 3000;
 
-mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
     .catch((error) => console.log(error.message));
